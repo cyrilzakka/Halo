@@ -3,4 +3,4 @@ authors = ["Cyril Zakka"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Halo: Open Source Health Metric Tracking"
+title = "Halo: Open Source Health Tracking with Wearables"
