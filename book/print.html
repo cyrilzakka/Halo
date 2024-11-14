@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Chapter 1: Pairing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Chapter 1: Pairing the Ring</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -189,7 +189,7 @@
 <p>This project is built on code and my learnings from the following <a href="https://tahnok.github.io/colmi_r02_client/">Python repository</a>.</p>
 <h2 id="disclaimer"><a class="header" href="#disclaimer">Disclaimer</a></h2>
 <p>As a doctor first, I'm legally obligated to remind you: none of what you're about to read is medical advice. Now, let's go make some wearables beep!</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-1-pairing"><a class="header" href="#chapter-1-pairing">Chapter 1: Pairing</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-1-pairing-the-ring"><a class="header" href="#chapter-1-pairing-the-ring">Chapter 1: Pairing the Ring</a></h1>
 <p>Before we dive into the code, let's understand some key specifications of Bluetooth Low Energy (BLE) first. BLE operates on a simple client-server model using three key concepts: <em>Centrals</em>, <em>Services</em>, and <em>Characteristics</em>. Let's break these down:</p>
 <ul>
 <li>A <strong>Central device</strong> (like your iPhone) initiates and manages connections with a <strong>Peripheral device</strong> (like our COLMI R02 ring). The ring broadcasts its presence, waiting for a phone to connect to it. Only one phone can connect to the ring at a time.</li>
@@ -672,6 +672,7 @@ struct ContentView: View {
 }
 </code></pre>
 <p>If all goes well, you should now be able to build and run your app. When you tap the <code>Add Ring</code> button, you'll see a pop-up of nearby devices including your COLMI R02 ring. Select it and the app will connect to it. 🎉</p>
+<p><img src="assets/paired.png" alt="Infoplist" /></p>
 <p>In the next chapter, we'll explore how to read and write data to the ring, starting with battery level, and working our way to raw sensor data (photoplethysmogram, accelerometer, etc). We'll then use this data to build features like real-time heart rate monitoring, activity tracking, sleep phase detection and more. Stay tuned!</p>
 
                     </main>

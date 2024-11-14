@@ -1,4 +1,4 @@
-# Chapter 1: Pairing
+# Chapter 1: Pairing the Ring
 Before we dive into the code, let's understand some key specifications of Bluetooth Low Energy (BLE) first. BLE operates on a simple client-server model using three key concepts: _Centrals_, _Services_, and _Characteristics_. Let's break these down:
 - A **Central device** (like your iPhone) initiates and manages connections with a **Peripheral device** (like our COLMI R02 ring). The ring broadcasts its presence, waiting for a phone to connect to it. Only one phone can connect to the ring at a time.
 - **Services** are collections of related features on the ring. Think of them as categories - one service might handle heart rate monitoring, another handles battery status. Each service has a unique identifier (UUID) that the client uses to find it.
@@ -516,5 +516,7 @@ struct ContentView: View {
 ```
 
 If all goes well, you should now be able to build and run your app. When you tap the `Add Ring` button, you'll see a pop-up of nearby devices including your COLMI R02 ring. Select it and the app will connect to it. 🎉 
+
+![Infoplist](assets/paired.png)
 
 In the next chapter, we'll explore how to read and write data to the ring, starting with battery level, and working our way to raw sensor data (photoplethysmogram, accelerometer, etc). We'll then use this data to build features like real-time heart rate monitoring, activity tracking, sleep phase detection and more. Stay tuned!
