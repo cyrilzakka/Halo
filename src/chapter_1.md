@@ -32,7 +32,7 @@ First open up `Info.plist` which you can either find in the left sidebar, or by 
 
 We should now be good to go! 🤗
 
-> If you prefer to skip the setup and jump straight to the code, you can find the [full code below](#full-code)
+> If you prefer to skip the setup and jump straight to the code, you can find the [full code below](#full-code).
 
 ## Ring Session Manager
 First, we'll create a `RingSessionManager` class that handles all the ring communication. This class will be responsible for:
