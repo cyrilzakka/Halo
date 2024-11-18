@@ -1,4 +1,6 @@
 # Introduction
+![Preview](assets/preview.png)
+
 In the rapidly evolving landscape of wearable technology, we find ourselves at a crossroads. The market is flooded with sleek, feature-packed devices promising to revolutionize our approach to health and fitness. Yet, beneath the polished exteriors and marketing hype lies a troubling reality: most of these devices are black boxes, their inner workings shrouded in proprietary code and closed-source hardware. As consumers, we're left in the dark about how our intimate health data is collected, processed, and potentially shared.
 
 Enter **Halo**, an open-source alternative that aims to democratize health tracking. This series of articles will serve as your entry-level guide to building and using a fully transparent, customizable wearable device.
