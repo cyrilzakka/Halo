@@ -206,7 +206,9 @@ Let's walk through setting up <code>AccessorySetupKit</code> for our ring.</p>
 <li>Reading and writing data to the ring</li>
 </ul>
 <h3 id="step-1-create-the-ringsessionmanager"><a class="header" href="#step-1-create-the-ringsessionmanager">Step 1: Create the RingSessionManager</a></h3>
-<p>Create a new Swift (⌘N) file named <code>RingSessionManager.swift</code>. I've highlighted the key properties and methods you'll need to implement below. You'll find the full class at the end of this section:</p>
+<p>Create a new Swift (⌘N) file named <code>RingSessionManager.swift</code>. I've highlighted the key properties and methods you'll need to implement below. You'll find the full class at the end of this section. Let's start by defining the class and its properties:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">@Observable
 class RingSessionManager: NSObject {
     // Track connection state
@@ -222,8 +224,11 @@ class RingSessionManager: NSObject {
     private var peripheral: CBPeripheral?
 }
 </code></pre>
+</details>
 <h3 id="step-2-discovering-the-ring"><a class="header" href="#step-2-discovering-the-ring">Step 2: Discovering the Ring</a></h3>
 <p>The ring broadcasts itself using specific Bluetooth services. We need to tell iOS what to look for. We'll create a <code>ASDiscoveryDescriptor</code> object with the ring's Bluetooth service UUID. This descriptor will help <code>AccessorySetupKit</code> identify the ring when scanning for nearby devices:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">private static let ring: ASPickerDisplayItem = {
     let descriptor = ASDiscoveryDescriptor()
     descriptor.bluetoothServiceUUID = CBUUID(string: "6E40FFF0-B5A3-F393-E0A9-E50E24DCCA9E")
@@ -235,9 +240,12 @@ class RingSessionManager: NSObject {
     )
 }()
 </code></pre>
+</details>
 <p>You can replace the <code>UIImage(named: "colmi")!</code> with your ring's image. Make sure to add the image to your project's asset catalog. I used the following <a href="https://www.colmi.info/cdn/shop/files/SmartRingCOLMIR02Black1.jpg?v=1706523978&amp;width=990">product</a> image.</p>
 <h3 id="step-3-showing-the-ring-picker"><a class="header" href="#step-3-showing-the-ring-picker">Step 3: Showing the Ring Picker</a></h3>
 <p>When the user wants to connect their ring, we show Apple's built-in device picker:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">func presentPicker() {
     session.showPicker(for: [Self.ring]) { error in
         if let error {
@@ -246,8 +254,11 @@ class RingSessionManager: NSObject {
     }
 }
 </code></pre>
+</details>
 <h3 id="step-4-handling-ring-selection"><a class="header" href="#step-4-handling-ring-selection">Step 4: Handling Ring Selection</a></h3>
 <p>When the user picks their ring from the list, we need to handle the connection:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">private func handleSessionEvent(event: ASAccessoryEvent) {
     switch event.eventType {
     case .accessoryAdded:
@@ -265,8 +276,11 @@ class RingSessionManager: NSObject {
     }
 }
 </code></pre>
+</details>
 <h3 id="step-5-establishing-the-connection"><a class="header" href="#step-5-establishing-the-connection">Step 5: Establishing the Connection</a></h3>
 <p>Once we have a ring selected, we initiate the actual Bluetooth connection:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">func connect() {
     guard
         let manager, manager.state == .poweredOn,
@@ -283,10 +297,13 @@ class RingSessionManager: NSObject {
     manager.connect(peripheral, options: options)
 }
 </code></pre>
+</details>
 <h3 id="step-6-understanding-the-delegate-methods"><a class="header" href="#step-6-understanding-the-delegate-methods">Step 6: Understanding the Delegate Methods</a></h3>
 <p>Our <code>RingSessionManager</code> implements two crucial delegate protocols that handle Bluetooth communication. Let's explore what each delegate method does:</p>
 <h4 id="the-central-manager-delegate"><a class="header" href="#the-central-manager-delegate">The Central Manager Delegate</a></h4>
 <p>First, we implement <code>CBCentralManagerDelegate</code> to handle the overall Bluetooth connection state:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">func centralManagerDidUpdateState(_ central: CBCentralManager) {
     print("Central manager state: \(central.state)")
     switch central.state {
@@ -306,8 +323,11 @@ class RingSessionManager: NSObject {
     }
 }
 </code></pre>
+</details>
 <p>This method gets called whenever the Bluetooth state changes on the device. When Bluetooth powers on, we check if we have a previously connected ring and try to reconnect to it.
 When we successfully connect to a ring, this method gets called:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
     print("DEBUG: Connected to peripheral: \(peripheral)")
     peripheral.delegate = self
@@ -317,15 +337,21 @@ When we successfully connect to a ring, this method gets called:</p>
     peripheralConnected = true
 }
 </code></pre>
+</details>
 <p>And when the ring disconnects (either intentionally or by going out of range):</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: (any Error)?) {
     print("Disconnected from peripheral: \(peripheral)")
     peripheralConnected = false
     characteristicsDiscovered = false
 }
 </code></pre>
+</details>
 <h4 id="the-peripheral-delegate"><a class="header" href="#the-peripheral-delegate">The Peripheral Delegate</a></h4>
 <p>The <code>CBPeripheralDelegate</code> methods handle the actual communication with our ring. First, we discover the ring's services:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: (any Error)?) {
     print("DEBUG: Services discovery callback, error: \(String(describing: error))")
     guard error == nil, let services = peripheral.services else {
@@ -345,7 +371,10 @@ When we successfully connect to a ring, this method gets called:</p>
     }
 }
 </code></pre>
+</details>
 <p>Once we find the services, we need to discover their characteristics - these are the actual data points we can read from or write to:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
     print("DEBUG: Characteristics discovery callback, error: \(String(describing: error))")
     guard error == nil, let characteristics = service.characteristics else {
@@ -370,7 +399,10 @@ When we successfully connect to a ring, this method gets called:</p>
     characteristicsDiscovered = true
 }
 </code></pre>
+</details>
 <p>When we receive data from the ring, this method gets called:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
     if characteristic.uuid == CBUUID(string: Self.uartTxCharacteristicUUID) {
         if let value = characteristic.value {
@@ -379,7 +411,10 @@ When we successfully connect to a ring, this method gets called:</p>
     }
 }
 </code></pre>
+</details>
 <p>And finally, when we send commands to the ring, this callback confirms if they were received:</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
     if let error = error {
         print("Write to characteristic failed: \(error.localizedDescription)")
@@ -388,7 +423,10 @@ When we successfully connect to a ring, this method gets called:</p>
     }
 }
 </code></pre>
+</details>
 <p>The full <code>RingSessionManager</code> class should now look like this:</p>
+<details>
+<summary>Full Code</summary>
 <pre><code class="language-swift">import Foundation
 import AccessorySetupKit
 import CoreBluetooth
@@ -608,8 +646,11 @@ extension RingSessionManager: CBPeripheralDelegate {
     }
 }
 </code></pre>
+</details>
 <h3 id="step-7-making-it-work-in-our-app"><a class="header" href="#step-7-making-it-work-in-our-app">Step 7: Making it Work in Our App</a></h3>
 <p>Open up <code>ContentView.swift</code> and paste the following. Everything should now be in place!</p>
+<details>
+<summary>Click to expand</summary>
 <pre><code class="language-swift">import SwiftUI
 import AccessorySetupKit
 
@@ -655,6 +696,7 @@ struct ContentView: View {
     ContentView()
 }
 </code></pre>
+</details>
 <p>If all goes well, you should now be able to build and run your app. When you tap the <code>Add Ring</code> button, you'll see a pop-up of nearby devices including your COLMI R02 ring. Select it and the app will connect to it. 🎉</p>
 <p><img src="assets/paired.png" alt="Infoplist" /></p>
 <p>In the next chapter, we'll explore how to read and write data to the ring, starting with battery level, and working our way to raw sensor data (photoplethysmogram, accelerometer, etc). We'll then use this data to build features like real-time heart rate monitoring, activity tracking, sleep phase detection and more. Stay tuned!</p>
