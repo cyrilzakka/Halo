@@ -7,7 +7,7 @@ Enter **Halo**, an open-source alternative that aims to democratize health track
 
 It's important to note that Halo is not intended to compete with consumer-grade wearables in terms of polish or feature completeness. Instead, it offers a unique, hands-on approach to understanding the technology behind health tracking devices.
 
-We'll be using `Swift 5` to build the accompanying iOS interface and `Python >= 3.10`. Since the code for this project is 100% [open-source](https://github.com/cyrilzakka/Halo-iOS), please don't hesitate to submit pull requests, or fork the project to take it in a whole new direction.
+We'll be using `Swift 5` to build the accompanying iOS interface and `Python >= 3.10`. Since the code for this project is 100% [open-source](https://github.com/cyrilzakka/Halo), please don't hesitate to submit pull requests, or fork the project to take it in a whole new direction.
 
 ## What You'll Need
 - Physical access to the [COLMI R02](https://www.aliexpress.us/item/3256806445134241.html?gatewayAdapt=glo2usa4itemAdapt) which you can grab for $11-$30 at the time of writing.
